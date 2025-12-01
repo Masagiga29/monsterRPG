@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>HELLO SQL</h1>
+  <p>{{ message }}</p>
+<table>
+{% for player in players %}
+<tr>
+  <td>{{ player.id }}</td>
+  <td>{{ player.name }}</td>
+  <td>{{ player.level }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

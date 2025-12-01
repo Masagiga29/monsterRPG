@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バトルロイヤル</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #battle-log {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 200px;
+            white-space: pre-wrap; /* 改行をそのまま表示するための設定 */
+        }
+    </style>
+    </head>
+<body>
+
+    <h1>モンスター・バトルロイヤル</h1>
+    <button id="start-button">バトル開始</button>
+
+    <h2>戦闘ログ</h2>
+    <div id="battle-log">
+        <p>バトル開始ボタンを押してください...</p>
+    </div>
+
+    <script>
+        // "start-button" というIDを持つボタン要素を取得
+        const startButton = document.getElementById('start-button');
+        // "battle-log" というIDを持つdiv要素を取得
+        const battleLogDiv = document.getElementById('battle-log');
+
+        // ボタンがクリックされた時の処理
+        startButton.addEventListener('click', async () => {
+            
+            // ログ表示エリアを初期化
+            battleLogDiv.innerHTML = '<p>戦闘準備中... (Pythonサーバーで計算しています)</p>';
+            startButton.disabled = true; // ボタンを一時的に無効化
+
+            try {
+                // Flaskサーバー (app.py) の /start-battle というURLにリクエストを送信
+                const response = await fetch('/start-battle', {
+                    method: 'POST', // POSTメソッドで送信
+                });
+
+                // サーバーから返ってきた結果 (JSON形式) を取得
+                const data = await response.json();
+
+                // ログ表示エリアをクリア
+                battleLogDiv.innerHTML = '';
+                
+                // 受け取ったログ (data.logs) を1行ずつ画面に追加
+                data.logs.forEach(logLine => {
+                    // 新しい段落 (<p>) 要素を作成
+                    const p = document.createElement('p');
+                    // テキストを設定 (改行もそのまま表示されるように)
+                    p.innerText = logLine;
+                    // ログ表示エリアに追加
+                    battleLogDiv.appendChild(p);
+                });
+
+            } catch (error) {
+                // エラーが発生した場合
+                console.error('エラー:', error);
+                battleLogDiv.innerHTML = '<p>エラーが発生しました。サーバーが動いているか確認してください。</p>';
+            } finally {
+                // 処理が完了したらボタンを再度有効化
+                startButton.disabled = false;
+            }
+        });
+    </script>
+    </body>
+</html>

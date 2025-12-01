@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<article>
+  <h2>戦闘結果</h2>
+  <p>{{ article }}が勝利しました！</p>
+  <p>{{ message }}</p>
+  
+</article>
+<form action="/" method="get">
+    <button type="submit">戻る</button>
+</form>
+{% endblock %}

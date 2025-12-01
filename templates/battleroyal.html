@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+      <h2>モンスター ステータス</h2>
+    <table>
+        <thead>
+          <tr>
+            <th>モンスター名</th>
+            <th>Lv</th>
+            <th>HP</th>
+            <th>MP</th>
+            <th>ATK</th>
+            <th>DEF</th>
+            <th>SPD</th>
+            <th>MAG</th>
+            <th>オッズ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for name, stats in monsters.items() %}
+          <tr>
+            <td>{{ name }}</td>
+            <td>{{ stats["Lv"] }}</td>
+            <td>{{ stats["HP"] }}</td>
+            <td>{{ stats["MP"] }}</td>
+            <td>{{ stats["ATK"] }}</td>
+            <td>{{ stats["DEF"] }}</td>
+            <td>{{ stats["SPD"] }}</td>
+            <td>{{ stats["MAG"] }}</td>
+            <td>{{ stats["odds"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+  
+   <form action="/" method="post">
+
+    <select name="name">
+     {% for m in monsters %}
+       <option value="{{ m }}">{{ m }}が生き残るに賭ける！</option>
+     {% endfor %}
+    </select>
+     <p></p>
+    <label for="kakekinn">賭け金</label>
+    <input type="number" name="kakekinn" min="1" value="100">
+    <button type="submit">賭けてスタート</button>
+    <input type="hidden" name="monsters" value="{{ monsters }}">
+   </form>  
+{% endblock %}
+

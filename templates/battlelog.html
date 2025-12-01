@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+<article>
+  <h2>バトルログ (ターン {{ turn }})</h2>
+
+  {% if turn_log %}
+    <ul>
+      {% for log_entry in turn_log %}
+        <li>{{ log_entry }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>（ログがありません）</p>
+  {% endif %}
+  
+  <hr>
+
+  <h3>現在の状態</h3>
+  <ul>
+  {% for name, stats in current_state.items() %}
+    {% if stats["HP"] > 0 %}
+      <li><strong>{{ name }}: HP {{ stats["HP"] }}</strong></li>
+    {% else %}
+      <li><del>{{ name }} (戦闘不能)</del></li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+  
+  <hr>
+
+  <form action="{{ url_for('battle_log_turn') }}" method="get">
+      <button type="submit">次のターンへ</button>
+  </form>
+
+</article>
+{% endblock %}
